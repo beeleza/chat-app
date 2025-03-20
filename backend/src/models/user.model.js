@@ -1,6 +1,6 @@
-import mongoose from "express";
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Shema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
