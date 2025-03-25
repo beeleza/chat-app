@@ -8,6 +8,7 @@ export const userAuthStore = create((set) => ({ // `set` é uma função do zust
     isSigninUp: false, // indica se o usuario está se cadastrando
     isLoggingIn: false, // indica se o usuário está tentando fazer login
     isUpdatingProfile: false, // indica se o usuário está atualizando o perfil
+    error: null,
 
     isCheckingAuth: true, // true enquanto o sistema verifica se o usuário já está autenticado
 
@@ -26,6 +27,23 @@ export const userAuthStore = create((set) => ({ // `set` é uma função do zust
         } finally {
             // Finaliza a verificação
             set({ isCheckingAuth: false });
+        }
+    },
+
+    signup: async (data) => {
+        set({ isSigninUp: true, error: null });
+        try {
+            const res = await axiosInstance.post("/auth/signup", data);
+            set({ authUser: res.data, error: null });
+            return { success: true };
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 
+                              error.response?.data?.error || 
+                              "Registration failed. Please try again.";
+            set({ error: errorMessage });
+            return { success: false, error: errorMessage };
+        } finally {
+            set({ isSigninUp: false });
         }
     }
 }));
