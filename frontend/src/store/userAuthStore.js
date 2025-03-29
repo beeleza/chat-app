@@ -47,5 +47,19 @@ export const userAuthStore = create((set) => ({ // `set` é uma função do zust
         } finally {
             set({ isSigninUp: false });
         }
-    }
+    },
+
+    logout: async () => {
+        try {
+            await axiosInstance.post("/auth/logout");
+            set({ authUser: null });
+            return { success: true }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 
+                              error.response?.data?.error || 
+                              "Logout failed. Please try again.";
+            set({ error: errorMessage });
+            return { success: false, error: errorMessage };
+        }
+    },
 }));
