@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { userAuthStore } from "../store/userAuthStore";
-import { Eye, EyeOff, KeyRound, Mail, MessageSquare, User } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Loader2, Mail, MessageSquare, User } from "lucide-react";
 import { Link } from "react-router";
 import AuthImagePattern from "../components/AuthImagePattern";
 import * as Yup from "yup";
 
 const SignUpPage = () => {
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
-  const { signup, isSigninIp, error: serverError } = userAuthStore();
+  const { signup } = userAuthStore();
 
   const validationSchema = Yup.object().shape({
     fullname: Yup.string()
@@ -46,13 +46,7 @@ const SignUpPage = () => {
     e.preventDefault();
     const isValid = await validateForm();
 
-    if (isValid) {
-      const { success, error } = await signup(formData);
-      if (!success) {
-        // O erro já está definido no estado global através do signup
-        console.error("Registration error:", error);
-      }
-    }
+    if (isValid) return await signup(formData);
   };
 
   const handleChange = (e) => {
@@ -161,29 +155,10 @@ const SignUpPage = () => {
                 className={`input input-bordered w-full pl-10 pr-10 ${
                   errors.password ? "input-error" : ""
                 }`}
-                placeholder="Enter your password"
+                placeholder="******"
                 value={formData.password}
                 onChange={handleChange}
               />
-
-              {serverError && (
-                <div role="alert" className="alert alert-error">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 shrink-0 stroke-current"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>{serverError}</span>
-                </div>
-              )}
 
               <button
                 type="button"
@@ -199,7 +174,9 @@ const SignUpPage = () => {
             )}
           </div>
 
-          <button className="btn btn-primary w-full mb-3">Create now</button>
+          <button type="submit" className="btn btn-primary w-full mb-3">
+            Create Account
+          </button>
         </form>
 
         <div className="text-center">

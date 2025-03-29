@@ -12,6 +12,8 @@ export const userAuthStore = create((set) => ({ // `set` é uma função do zust
 
     isCheckingAuth: true, // true enquanto o sistema verifica se o usuário já está autenticado
 
+    clearError: () => set({ error: null }),
+
     // objetivo: verifica se o usuario ja está autenticado ao carregar a aplicação
     checkAuth: async () => {
         try {

@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from "react-router";
 import { userAuthStore } from "./store/userAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
+import Toast from "./components/Toast";
  
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = userAuthStore();
@@ -30,6 +31,7 @@ function App() {
     <div>
       <Navbar/>
 
+      <Toast/>
       <Routes>
         <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
