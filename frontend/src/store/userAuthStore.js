@@ -79,4 +79,20 @@ export const userAuthStore = create((set) => ({ // `set` é uma função do zust
             return { success: false, error: errorMessage };
         }
     },
+    
+    updateProfile: async (data) => {
+        set({ isUpdatingProfile: true });
+        
+        try {
+            const res = await axiosInstance.put("/auth/update-profile", data);
+            set({ authUser: res.data });
+            return { success: true };
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 
+                              error.response?.data?.error || 
+                              "Update profile failed. Please try again.";
+            set({ error: errorMessage });
+            return { success: false, error: errorMessage };
+        }
+    }
 }));
