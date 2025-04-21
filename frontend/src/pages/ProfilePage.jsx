@@ -93,7 +93,10 @@ const ProfilePage = () => {
               </div>
               <div className="flex items-center justify-between py-2">
                 <span>Account Status</span>
-                <span className="text-green-500">Active</span>
+                <span>
+                  <div aria-label="status" className="status status-accent"></div>
+                  {" "}Active
+                </span>
               </div>
             </div>
           </div>

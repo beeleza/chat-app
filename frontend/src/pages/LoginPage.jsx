@@ -12,7 +12,7 @@ const LoginPage = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
-  const { login, isLoggingIn } = userAuthStore();
+  const { login } = userAuthStore();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
